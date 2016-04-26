@@ -1,0 +1,160 @@
+NETID:  <your netid here>
+
+
+1. Describe the contents of an IP packet and for each field describe the
+purpose it serves.
+
+Version Number: 4 bit specify the IP version. example IPv4, IPv6
+Header length : 4 bits Packet may contain header of variable length due to optional
+fields
+Type of Service : 4 bits. type of service for which the packet should give
+priority.
+Datagram Length : 16 bits. Total length of the packet.
+Identifier Tag : 16 bits. Help to identify the fragmented packets of same
+packet.
+Flags:  3 bits. Dont Fragment and More Fragment flags.
+Fragmentation Offset: 3 bits. Identify the position of fragment.
+TTL : 8 bits. To make sure packet not circulate forever in network.
+Protocol : 8 bits. To identify the upper layer protocol. Example: TCP, UDP,
+ICMP
+Header Checksum: 16 bits. To identify the bit errors.	
+Source IP address : 32 bits. The IP address of sender. Helps receiver identify
+the source.
+Destination IP address : 32 bits. The IP address of receiver. Helps source to
+address the destination.
+
+2. Describe the general operation of the BGP protocol.
+
+Border gateway protocol is the inter-AS routing protocol.
+It helps AS to obtain subnet reachability information from neighboring ASs,
+propogare reachability information to all internal routers in AS and aslo to
+determine the good routes to subnet based on the reaschability information and
+AS policy.
+
+
+
+3. Describe why the ethernet protocol necessitates a minimum packet size.
+
+To identify the collision. Monitoring the collision will become defiicuilt as
+very small packets would undetectable.
+
+4. Describe how TCP reacts to congestion in the network.  Assume that
+congestion is brought on by BGP reconfiguring the path such that TCP
+packets now go through a bottleneck link of capacity B packets/second.
+Describe in detail what TCP will do when faced with this bottleneck.
+
+TCP will limit in sending rate if it detects a lost packet.
+TCP will do a multiplicative decrease and as slow start it will do additivie
+increase untill it detects next lost packet
+
+
+5. Describe TCP's behavior when it is first getting started delivering data
+over a high latency, high-bandwidth channel such as a satellite link. Be
+sure to explain how TCP manages its window size during the initial
+connection setup.
+
+Slow Start:
+The value of congestion window increases by 1 MSS every time a transmitted
+data is acknowledged. Once it detects duplicate acks it will do congestion
+avoidance and try to do a fast recovery.
+
+
+6. On an ethernet segment, the ARP protocol is used to locate the ethernet
+address of a host whose IP address is known. On the Internet, DNS is
+used to locate the IP address of a host whose name is known. ARP and
+DNS are drastically different -- the former uses a broadcast mechanism
+while the latter implements a scalable, distributed database. Explain
+why DNS was designed the way it was, and not, for instance, based on
+a simple broadcast.
+
+Internet is very big, so bradcating and waitng for signal might take time.
+DNS is a distributed database where name-Ip information is saved in serval
+servers helping to find the destination faster by pointing one domain server
+to other.
+Whereas, link layer ethernet network are small in number when compared to
+Internet and hence ARP is used to broadcast and resolve the MAC address. 
+
+
+7. Describe the two means by which a DNS name, such as www.cnn.com, is
+resolved.
+
+1)The user machine runs the client side DNS.
+2)Browser will extract the host name www.cnn.com and will pass it to the DNS
+application.
+3)DNS client application will send the query containing hostname to DNS
+server.
+4) 
+a) The DNS server will reply the client with IP address of host.
+b) If the DNS server does not have the IP informatio, it will request other
+DNS server to resolve the hostname.
+5)Once received the IP address, browser will initiate the TCP connection to
+the HTTP server process. 
+
+
+8. What is a DNS local resolver?
+
+Local DNS resolver does not strictly belong to heirarchy of DNS servers.
+ISPs such as University, Academic Department has DNS local resolver, When host
+connects to ISP, the ISP provided the host with one or more of its local DNS
+servers. It acts as proxy for the host which tries to connect to the ISP.
+
+
+9. What purpose does the ACK # serve in TCP?
+
+ACK # is the sequence number of the packet that Receiver is expecting.
+The ACK # helps sender to confirm that all the packets before this was
+successfull.
+
+
+10. What purpose does the destination port number serve in UDP?
+
+
+Popular applications are assigned with certain port numbers. To identify the
+application for which the UDP is serving, destination port number is added in
+UDP. example, SQL, HTTP etc...
+
+11. Why does UDP include a checksum? Wouldn't the end-to-end argument
+require that all checksums be performed at the application level, and
+hence argue that UDP and TCP elide such additional checksums in the
+network stack?
+
+UDP is not a reliable protocal like TCP.
+To identify any packet loss or bit errors, it needs checksum for detection.
+
+
+12. Imagine that a mail server on host A has just received a TCP/IP SYN
+packet destined for it. Describe everything that happens to this packet
+from the point of its reception by the network interface card to the point
+of its delivery to the mail server.
+
+Physical layer will receive the packet. packet is sent to link layer.
+CRC is verified at Link Layer. The IP datagram is sent to Network layer.
+In Network layer, IP headers are read and packets are identified as per their
+identification number field(in case of fragmentation). data devoid of IP
+header is sent to uppler Transport layer which is TCP.
+From the destination port in the TCP header, the application layer is
+identified. After checksum is perform, the TCP payload is sent to SMTP
+application layer.
+
+
+13. In IPv6, why do routers not fragment packets? How does IPv6 deal with
+the issue of Maximum Transmission Unit?
+ 
+Since, fragmentation and reassembly is a time consuming operation. By, placing
+these operations on end systems, IP forwarding within the network sppeds up.
+In IPv6, if router receives a big packet, router  will drop the packet and
+will send a "Packet too big" ICMP error message. Sender can resend the data
+using smalled datagram packets.
+
+
+14. What is the difference between a web proxy and a vpn? When would it
+be advantageous to use a proxy instead of a vpn?
+   
+web proxy is a computer that acts as a intermediary between user's computer
+and internet. Traffic router through proxy will appear to come from proxy's IP
+address concealing user's identity.
+VPN is an encryped tunnel between user's computer and host server. Other than
+the ISP providing the service, nobody can view the user's activity.
+web proxy will be advantageous when the reason for concealing the identity is
+not worthy enough to setup VPN which is very costly when compared to VPN
+
